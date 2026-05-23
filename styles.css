@@ -469,6 +469,39 @@ h3 {
   letter-spacing: 0.1em;
 }
 
+.image-avatar {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+  border: 3px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 0 40px rgba(0,140,255,0.35),
+    0 0 80px rgba(128,0,255,0.25);
+
+  background: #000;
+}
+
+.image-avatar img {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.avatar-orbit {
+  position: absolute;
+  inset: -25px;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .project-card h3 {
   font-size: clamp(1.8rem, 3vw, 3rem);
 }
@@ -734,3 +767,5 @@ footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+
