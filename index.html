@@ -53,12 +53,12 @@
           <p class="exploring">
             Currently exploring Agentic AI &amp; AI-powered retail intelligence systems.
           </p>
-          <div class="hero-actions">
+        <div class="hero-actions">
             <a class="primary-btn magnetic" href="#work">
               <span>View featured systems</span>
               <span aria-hidden="true">→</span>
             </a>
-            <a class="secondary-btn magnetic" href="assets/David_Raj_Ramakrishnan_Resume.pdf" download>
+            <a class="secondary-btn magnetic" href="assets/DAVID_RAJ_RAMAKRISHNAN_XR.pdf" download>
               <span aria-hidden="true">↓</span>
               Download resume
             </a>
@@ -130,6 +130,40 @@
             cleaner architecture.
           </p>
         </div>
+      </section>
+
+      <section id="ai-assistant" class="ai-assistant reveal" aria-labelledby="assistant-title">
+        <div class="assistant-copy">
+          <p class="eyebrow">AI profile search</p>
+          <h2 id="assistant-title">Ask about David’s work, skills, and projects.</h2>
+          <p>
+            A portfolio assistant can answer from this page and route questions through a secure
+            server endpoint when deployed with an OpenAI API key.
+          </p>
+        </div>
+
+        <form class="assistant-box" id="assistant-form">
+          <label class="visually-hidden" for="assistant-input">Ask a question about David Raj</label>
+          <div class="assistant-input-row">
+            <input
+              id="assistant-input"
+              type="search"
+              autocomplete="off"
+              placeholder="Ask: What AI retail systems has David built?"
+              maxlength="360"
+              required
+            />
+            <button class="assistant-submit" type="submit" aria-label="Ask profile assistant">
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="assistant-response" id="assistant-response" role="status" aria-live="polite">
+            Try asking about SpeedShelf Lite, XR platforms, AI integration, WebGL optimization, or leadership experience.
+          </div>
+          <p class="assistant-note">
+            Uses a backend API when available. Do not enter confidential company data.
+          </p>
+        </form>
       </section>
 
       <section id="work" class="featured">

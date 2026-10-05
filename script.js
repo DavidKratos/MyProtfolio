@@ -65,6 +65,74 @@ document.querySelectorAll(".magnetic").forEach((item) => {
   });
 });
 
+const assistantForm = document.querySelector("#assistant-form");
+const assistantInput = document.querySelector("#assistant-input");
+const assistantResponse = document.querySelector("#assistant-response");
+
+const profileContext = `
+David Raj Ramakrishnan is a Senior / Lead Immersive Architect in Bengaluru.
+He works across Unity, XR, VR, AR, MR, WebGL, Azure, REST APIs, analytics, OpenAI-assisted workflows, Generative AI, Agentic AI concepts, and retail intelligence.
+Featured work includes SpeedShelf Lite, Shelf Intelligence, ImageMagick-based shelf image stitching architecture, and planogram visualization systems.
+Experience: Capgemini from 2023 to present as Immersive Developer - Senior Consultant; Osmo by Byju's from 2020 to 2023 as Game Engineer - 2; Tech Mahindra from 2016 to 2020 as Jr. Software Engineer.
+Platforms include Quest, Android, iOS, Windows, WebGL, Oculus Rift, HTC Vive, and ARCore.
+Recognition includes a Customer Delight Award for Jan 2025 - June 2025.
+Contact: itsmedavidraj@gmail.com, LinkedIn at linkedin.com/in/david-raj-ramakrishnan-47001696/.
+`;
+
+const localAssistantAnswer = (question) => {
+  const normalized = question.toLowerCase();
+
+  if (normalized.includes("speedshelf") || normalized.includes("retail")) {
+    return "David's strongest retail work is SpeedShelf Lite: Unity/WebGL architecture, shelf visualization, Azure-connected workflows, analytics thinking, and optimized planogram experiences for enterprise merchandising.";
+  }
+
+  if (normalized.includes("ai") || normalized.includes("openai") || normalized.includes("agent")) {
+    return "David is exploring AI-assisted retail intelligence, including OpenAI API integration concepts, agentic workflows, automated shelf insights, and tools that compress engineering iteration loops.";
+  }
+
+  if (normalized.includes("xr") || normalized.includes("unity") || normalized.includes("webgl")) {
+    return "David has 7+ years across Unity, XR, VR, AR, MR, and WebGL, with delivery across Quest, Android, iOS, Windows, browser runtimes, Oculus Rift, HTC Vive, and ARCore.";
+  }
+
+  if (normalized.includes("contact") || normalized.includes("email") || normalized.includes("linkedin")) {
+    return "You can contact David at itsmedavidraj@gmail.com or through LinkedIn: linkedin.com/in/david-raj-ramakrishnan-47001696/.";
+  }
+
+  return "David is an immersive architect focused on Unity, XR, WebGL, Azure, OpenAI-assisted workflows, and AI-powered retail intelligence. Ask about SpeedShelf Lite, Shelf Intelligence, platform optimization, or leadership experience for a sharper answer.";
+};
+
+if (assistantForm && assistantInput && assistantResponse) {
+  assistantForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const question = assistantInput.value.trim();
+    if (!question) return;
+
+    const submitButton = assistantForm.querySelector("button");
+    submitButton.disabled = true;
+    assistantResponse.classList.add("is-loading");
+    assistantResponse.textContent = "Thinking through the portfolio...";
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, context: profileContext }),
+      });
+
+      if (!response.ok) throw new Error("Assistant endpoint unavailable.");
+
+      const data = await response.json();
+      assistantResponse.textContent = data.answer || localAssistantAnswer(question);
+    } catch (error) {
+      assistantResponse.textContent = localAssistantAnswer(question);
+    } finally {
+      assistantResponse.classList.remove("is-loading");
+      submitButton.disabled = false;
+    }
+  });
+}
+
 const canvas = document.querySelector("#glow-field");
 const gl = canvas.getContext("webgl", { antialias: true, alpha: true });
 
