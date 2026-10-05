@@ -67,12 +67,32 @@ document.querySelectorAll(".magnetic").forEach((item) => {
 
 const assistantForm = document.querySelector("#assistant-form");
 const assistantInput = document.querySelector("#assistant-input");
-const assistantResponse = document.querySelector("#assistant-response");
+const assistantMessages = document.querySelector("#assistant-messages");
+const assistantEmpty = document.querySelector("#assistant-empty");
+const assistantStatus = document.querySelector("#assistant-status");
+const assistantNew = document.querySelector("#assistant-new");
 const assistantFile = document.querySelector("#assistant-file");
 const assistantAttach = document.querySelector("#assistant-attach");
 const assistantFiles = document.querySelector("#assistant-files");
-const assistantCopy = document.querySelector("#assistant-copy");
 let assistantAttachments = [];
+let previousResponseId = null;
+let assistantBusy = false;
+let readingAttachments = false;
+
+const refreshIcons = () => window.lucide?.createIcons();
+const assistantIcon = (name) => {
+  const icon = document.createElement("i");
+  icon.dataset.lucide = name;
+  icon.setAttribute("aria-hidden", "true");
+  return icon;
+};
+const updateComposer = () => {
+  assistantForm.querySelector(".assistant-submit").disabled = assistantBusy || readingAttachments || (!assistantInput.value.trim() && !assistantAttachments.length);
+  assistantAttach.disabled = assistantBusy || readingAttachments;
+  assistantNew.disabled = assistantBusy || readingAttachments;
+  assistantInput.style.height = "auto";
+  assistantInput.style.height = `${Math.min(180, assistantInput.scrollHeight)}px`;
+};
 
 const profileContext = `
 David Raj Ramakrishnan is a Senior / Lead Immersive Architect in Bengaluru.
@@ -83,28 +103,6 @@ Platforms include Quest, Android, iOS, Windows, WebGL, Oculus Rift, HTC Vive, an
 Recognition includes a Customer Delight Award for Jan 2025 - June 2025.
 Contact: itsmedavidraj@gmail.com, LinkedIn at linkedin.com/in/david-raj-ramakrishnan-47001696/.
 `;
-
-const localAssistantAnswer = (question) => {
-  const normalized = question.toLowerCase();
-
-  if (normalized.includes("speedshelf") || normalized.includes("retail")) {
-    return "David's strongest retail work is SpeedShelf Lite: Unity/WebGL architecture, shelf visualization, Azure-connected workflows, analytics thinking, and optimized planogram experiences for enterprise merchandising.";
-  }
-
-  if (normalized.includes("ai") || normalized.includes("openai") || normalized.includes("agent")) {
-    return "David is exploring AI-assisted retail intelligence, including OpenAI API integration concepts, agentic workflows, automated shelf insights, and tools that compress engineering iteration loops.";
-  }
-
-  if (normalized.includes("xr") || normalized.includes("unity") || normalized.includes("webgl")) {
-    return "David has 7+ years across Unity, XR, VR, AR, MR, and WebGL, with delivery across Quest, Android, iOS, Windows, browser runtimes, Oculus Rift, HTC Vive, and ARCore.";
-  }
-
-  if (normalized.includes("contact") || normalized.includes("email") || normalized.includes("linkedin")) {
-    return "You can contact David at itsmedavidraj@gmail.com or through LinkedIn: linkedin.com/in/david-raj-ramakrishnan-47001696/.";
-  }
-
-  return "David is an immersive architect focused on Unity, XR, WebGL, Azure, OpenAI-assisted workflows, and AI-powered retail intelligence. Ask about SpeedShelf Lite, Shelf Intelligence, platform optimization, or leadership experience for a sharper answer.";
-};
 
 const readAssistantFile = (file) =>
   new Promise((resolve, reject) => {
@@ -139,53 +137,181 @@ const renderAssistantFiles = () => {
 
     const label = document.createElement("span");
     label.textContent = file.name;
+    if (file.kind === "image") {
+      const preview = document.createElement("img");
+      preview.src = file.content;
+      preview.alt = "";
+      chip.append(preview);
+    }
 
     const remove = document.createElement("button");
     remove.type = "button";
     remove.setAttribute("aria-label", `Remove ${file.name}`);
-    remove.textContent = "×";
+    remove.append(assistantIcon("x"));
     remove.addEventListener("click", () => {
       assistantAttachments = assistantAttachments.filter((_, fileIndex) => fileIndex !== index);
       renderAssistantFiles();
+      updateComposer();
     });
 
     chip.append(label, remove);
     assistantFiles.append(chip);
   });
+  refreshIcons();
 };
 
-const setAssistantAnswer = (answer) => {
-  assistantResponse.textContent = answer;
-  if (assistantCopy) {
-    assistantCopy.hidden = !answer.trim();
-    assistantCopy.textContent = "Copy response";
+const copyButton = (text, label = "Copy response") => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "assistant-copy-btn";
+  button.title = label;
+  button.setAttribute("aria-label", label);
+  button.append(assistantIcon("copy"));
+  const caption = document.createElement("span");
+  caption.textContent = label === "Copy code" ? "Copy code" : "Copy";
+  button.append(caption);
+  button.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      caption.textContent = "Copied";
+      setTimeout(() => { caption.textContent = label === "Copy code" ? "Copy code" : "Copy"; }, 2000);
+    } catch {
+      caption.textContent = "Copy unavailable";
+    }
+  });
+  return button;
+};
+
+// Render Markdown through a tag/attribute allowlist before inserting it in the page.
+const renderAssistantAnswer = (container, answer) => {
+  container.replaceChildren();
+  if (!window.marked) {
+    container.textContent = answer;
+  } else {
+    const escape = (text) => String(text).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    const renderer = new window.marked.Renderer();
+    renderer.html = ({ text }) => escape(text);
+    renderer.image = ({ text }) => escape(text || "Image");
+    const html = window.marked.parse(answer, { renderer, async: false });
+    const documentCopy = new DOMParser().parseFromString(html, "text/html");
+    const allowed = new Set(["P", "BR", "STRONG", "EM", "DEL", "CODE", "PRE", "UL", "OL", "LI", "BLOCKQUOTE", "H1", "H2", "H3", "H4", "H5", "H6", "HR", "A", "TABLE", "THEAD", "TBODY", "TR", "TH", "TD"]);
+    documentCopy.body.querySelectorAll("*").forEach((element) => {
+      if (!allowed.has(element.tagName)) {
+        element.replaceWith(documentCopy.createTextNode(element.textContent));
+        return;
+      }
+      const href = element.getAttribute("href");
+      const language = element.tagName === "CODE" ? element.className.replace(/^language-/, "") : "";
+      Array.from(element.attributes).forEach((attribute) => element.removeAttribute(attribute.name));
+      if (element.tagName === "A" && href && /^(https?:\/\/|mailto:)/i.test(href)) {
+        element.setAttribute("href", href);
+        element.setAttribute("target", "_blank");
+        element.setAttribute("rel", "noopener noreferrer");
+      }
+      if (language) element.dataset.language = language;
+    });
+    container.append(...Array.from(documentCopy.body.childNodes));
+    container.querySelectorAll("pre").forEach((pre) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "assistant-code";
+      const header = document.createElement("div");
+      header.className = "assistant-code-header";
+      const language = document.createElement("span");
+      language.textContent = pre.querySelector("code")?.dataset.language || "code";
+      header.append(language, copyButton(pre.textContent, "Copy code"));
+      pre.replaceWith(wrapper);
+      wrapper.append(header, pre);
+    });
+    container.querySelectorAll("table").forEach((table) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "assistant-table";
+      table.replaceWith(wrapper);
+      wrapper.append(table);
+    });
   }
+  container.append(copyButton(answer));
+  refreshIcons();
 };
 
-if (assistantForm && assistantInput && assistantResponse) {
+const appendAssistantMessage = (role, text, files = []) => {
+  assistantEmpty.hidden = true;
+  const row = document.createElement("div");
+  row.className = `assistant-message assistant-message-${role}`;
+  if (role === "assistant") {
+    const avatar = document.createElement("span");
+    avatar.className = "assistant-avatar";
+    avatar.setAttribute("aria-label", "Assistant");
+    avatar.append(assistantIcon("sparkles"));
+    row.append(avatar);
+  }
+  const content = document.createElement("div");
+  content.className = "assistant-message-content";
+  content.textContent = text;
+  if (files.length) {
+    const previews = document.createElement("div");
+    previews.className = "assistant-message-files";
+    files.forEach((file) => {
+      const preview = document.createElement(file.kind === "image" ? "img" : "span");
+      if (file.kind === "image") { preview.src = file.content; preview.alt = file.name; }
+      else preview.textContent = file.name;
+      previews.append(preview);
+    });
+    content.append(previews);
+  }
+  row.append(content);
+  assistantMessages.append(row);
+  assistantMessages.scrollTop = assistantMessages.scrollHeight;
+  refreshIcons();
+  return { row, content };
+};
+
+if (assistantForm && assistantInput && assistantMessages) {
   assistantAttach?.addEventListener("click", () => assistantFile?.click());
+  assistantInput.addEventListener("input", updateComposer);
+  assistantInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing && window.matchMedia("(pointer: fine)").matches) {
+      event.preventDefault();
+      if (!assistantBusy && !readingAttachments) assistantForm.requestSubmit();
+    }
+  });
+  assistantNew.addEventListener("click", () => {
+    assistantMessages.querySelectorAll(".assistant-message").forEach((row) => row.remove());
+    assistantEmpty.hidden = false;
+    previousResponseId = null;
+    assistantAttachments = [];
+    assistantInput.value = "";
+    assistantStatus.textContent = "";
+    renderAssistantFiles();
+    updateComposer();
+    assistantInput.focus({ preventScroll: true });
+  });
+  document.querySelectorAll("[data-prompt]").forEach((button) => {
+    button.addEventListener("click", () => {
+      assistantInput.value = button.dataset.prompt;
+      updateComposer();
+      assistantForm.requestSubmit();
+    });
+  });
 
   assistantFile?.addEventListener("change", async () => {
     const selectedFiles = Array.from(assistantFile.files || []);
     if (!selectedFiles.length) return;
 
     const allowedFiles = selectedFiles.slice(0, Math.max(0, 4 - assistantAttachments.length));
-    assistantResponse.classList.add("is-loading");
-    setAssistantAnswer("Adding attachments...");
+    readingAttachments = true;
+    updateComposer();
+    assistantStatus.textContent = "Adding attachments...";
 
     try {
       const loadedFiles = [];
       for (const file of allowedFiles) {
-        const isImage = file.type.startsWith("image/");
-        const isTooLarge = isImage ? file.size > 4 * 1024 * 1024 : file.size > 240 * 1024;
+        const isImage = /^image\/(png|jpeg|webp|gif)$/.test(file.type);
+        const isScript = /\.(cs|js|ts|tsx|jsx|json|txt|shader|hlsl|cginc|html|css)$/i.test(file.name);
+        const totalImageSize = [...assistantAttachments, ...loadedFiles].filter((item) => item.kind === "image").reduce((total, item) => total + item.content.length, 0);
+        const isTooLarge = isImage ? totalImageSize + file.size * 1.34 > 3 * 1024 * 1024 : file.size > 240 * 1024;
 
-        if (isTooLarge) {
-          loadedFiles.push({
-            name: `${file.name} skipped`,
-            mimeType: "text/plain",
-            kind: "text",
-            content: "This file was too large to attach.",
-          });
+        if (isTooLarge || (!isImage && !isScript)) {
+          assistantStatus.textContent = `${file.name} skipped: use supported images up to 2 MB total or scripts up to 240 KB.`;
           continue;
         }
 
@@ -194,42 +320,33 @@ if (assistantForm && assistantInput && assistantResponse) {
 
       assistantAttachments = [...assistantAttachments, ...loadedFiles].slice(0, 4);
       renderAssistantFiles();
-      setAssistantAnswer(
-        assistantAttachments.length
-          ? "Attachment ready. Add a question and send."
-          : "Try attaching an image under 4 MB or a script file under 240 KB."
-      );
+      if (assistantStatus.textContent === "Adding attachments...") assistantStatus.textContent = selectedFiles.length > allowedFiles.length ? "Maximum 4 attachments." : "";
     } catch (error) {
-      setAssistantAnswer("I could not read that attachment. Try a smaller image or text-based script file.");
+      assistantStatus.textContent = "Could not read that attachment.";
     } finally {
-      assistantResponse.classList.remove("is-loading");
+      readingAttachments = false;
+      updateComposer();
       assistantFile.value = "";
-    }
-  });
-
-  assistantCopy?.addEventListener("click", async () => {
-    const text = assistantResponse.textContent.trim();
-    if (!text) return;
-
-    try {
-      await navigator.clipboard.writeText(text);
-      assistantCopy.textContent = "Copied";
-    } catch (error) {
-      assistantCopy.textContent = "Select and copy";
     }
   });
 
   assistantForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (assistantBusy || readingAttachments) return;
 
     const question = assistantInput.value.trim();
     if (!question && !assistantAttachments.length) return;
 
-    const submitButton = assistantForm.querySelector(".assistant-submit");
-    submitButton.disabled = true;
-    assistantResponse.classList.add("is-loading");
-    if (assistantCopy) assistantCopy.hidden = true;
-    setAssistantAnswer("Thinking through the portfolio...");
+    const files = assistantAttachments;
+    appendAssistantMessage("user", question, files);
+    assistantAttachments = [];
+    assistantInput.value = "";
+    renderAssistantFiles();
+    assistantBusy = true;
+    updateComposer();
+    assistantStatus.textContent = "Thinking...";
+    const pending = appendAssistantMessage("assistant", "Thinking...");
+    pending.row.classList.add("assistant-message-pending");
 
     try {
       const response = await fetch("/api/chat", {
@@ -238,31 +355,35 @@ if (assistantForm && assistantInput && assistantResponse) {
         body: JSON.stringify({
           question: question || "Please analyze the attached file.",
           context: profileContext,
-          attachments: assistantAttachments,
+          attachments: files,
+          previousResponseId,
         }),
+        signal: AbortSignal.timeout(120000),
       });
 
       if (!response.ok) throw new Error("Assistant endpoint unavailable.");
 
       const data = await response.json();
-      setAssistantAnswer(data.answer || localAssistantAnswer(question));
+      if (!data.answer) throw new Error("Empty assistant response.");
+      previousResponseId = data.responseId || previousResponseId;
+      renderAssistantAnswer(pending.content, data.answer);
     } catch (error) {
-      if (
-        assistantAttachments.length ||
-        question.length > 500 ||
-        /class |using |void |public |private |update\(|start\(|monobehaviour/i.test(question)
-      ) {
-        setAssistantAnswer(
-          "The file and code assistant needs the backend OpenAI API to be available. Please deploy with OPENAI_API_KEY set, then try the attachment or code snippet again."
-        );
-      } else {
-        setAssistantAnswer(localAssistantAnswer(question));
-      }
+      pending.row.classList.add("assistant-message-error");
+      pending.content.textContent = "Couldn't get a response. Your message has been restored below so you can try again.";
+      // Restore the failed turn without overwriting a follow-up being drafted.
+      if (!assistantInput.value.trim()) assistantInput.value = question;
+      assistantAttachments = files;
+      renderAssistantFiles();
     } finally {
-      assistantResponse.classList.remove("is-loading");
-      submitButton.disabled = false;
+      pending.row.classList.remove("assistant-message-pending");
+      assistantBusy = false;
+      assistantStatus.textContent = "";
+      updateComposer();
+      if (assistantMessages.scrollHeight - assistantMessages.scrollTop - assistantMessages.clientHeight < 200) assistantMessages.scrollTop = assistantMessages.scrollHeight;
     }
   });
+  updateComposer();
+  refreshIcons();
 }
 
 const canvas = document.querySelector("#glow-field");

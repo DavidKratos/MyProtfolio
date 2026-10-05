@@ -8,7 +8,7 @@ export default async function handler(request, response) {
     return response.status(503).json({ error: "Assistant is not configured yet." });
   }
 
-  const { question, context, attachments } = request.body || {};
+  const { question, context, attachments, previousResponseId } = request.body || {};
   if (!question || typeof question !== "string") {
     return response.status(400).json({ error: "Question is required." });
   }
@@ -71,6 +71,9 @@ export default async function handler(request, response) {
       },
       body: JSON.stringify({
         model: process.env.OPENAI_MODEL || "gpt-5",
+        ...(typeof previousResponseId === "string" && /^resp_[a-zA-Z0-9_-]+$/.test(previousResponseId)
+          ? { previous_response_id: previousResponseId }
+          : {}),
         instructions:
           "You are an AI assistant embedded in David Raj Ramakrishnan's portfolio. Answer like a helpful ChatGPT-style assistant. If the user asks about David, use the supplied profile context and do not invent facts. If the user pastes or attaches C#, Unity, WebGL, JavaScript, or other code, explain it, debug it, refactor it, or suggest fixes clearly. If the user attaches an image, inspect it and answer their question about it. For code answers, be practical and include corrected snippets when useful. Do not claim to run code. Do not ask for secrets, API keys, passwords, tokens, or confidential company data.",
         input: [
@@ -91,6 +94,7 @@ export default async function handler(request, response) {
     const answer = getResponseText(data);
 
     return response.status(200).json({
+      responseId: data.id,
       answer:
         answer ||
         "I can answer questions about David's work or help with pasted code. Try asking about SpeedShelf Lite, XR platforms, WebGL, AI retail intelligence, or paste a C# snippet.",
