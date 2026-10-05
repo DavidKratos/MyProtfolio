@@ -605,24 +605,26 @@ h3 {
   gap: 10px;
 }
 
-.assistant-input-row input {
+.assistant-input-row textarea {
   width: 100%;
-  min-height: 52px;
-  padding: 0 16px;
+  min-height: 86px;
+  max-height: 220px;
+  padding: 14px 16px;
   border: 1px solid rgba(174, 194, 255, 0.24);
   border-radius: 8px;
   outline: none;
+  resize: vertical;
   background: rgba(7, 9, 18, 0.72);
   color: var(--text);
   font: inherit;
 }
 
-.assistant-input-row input:focus {
+.assistant-input-row textarea:focus {
   border-color: rgba(101, 245, 255, 0.62);
   box-shadow: 0 0 0 4px rgba(101, 245, 255, 0.1);
 }
 
-.assistant-input-row input::placeholder {
+.assistant-input-row textarea::placeholder {
   color: rgba(174, 184, 214, 0.74);
 }
 
@@ -646,6 +648,79 @@ h3 {
   opacity: 0.68;
 }
 
+.assistant-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.assistant-tool-btn,
+.assistant-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(174, 194, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.assistant-tool-btn {
+  gap: 8px;
+}
+
+.assistant-tool-btn:hover,
+.assistant-copy-btn:hover {
+  border-color: rgba(101, 245, 255, 0.48);
+}
+
+.assistant-files {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.assistant-file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 260px;
+  min-height: 34px;
+  padding: 0 8px 0 10px;
+  border: 1px solid rgba(101, 245, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(101, 245, 255, 0.07);
+  color: #dbe4ff;
+  font-size: 0.84rem;
+}
+
+.assistant-file-chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assistant-file-chip button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  cursor: pointer;
+}
+
 .assistant-response {
   min-height: 118px;
   padding: 18px;
@@ -653,6 +728,7 @@ h3 {
   border-radius: 8px;
   background: rgba(7, 9, 18, 0.62);
   color: #dbe4ff;
+  white-space: pre-wrap;
 }
 
 .assistant-response.is-loading {

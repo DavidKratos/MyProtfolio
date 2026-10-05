@@ -68,6 +68,11 @@ document.querySelectorAll(".magnetic").forEach((item) => {
 const assistantForm = document.querySelector("#assistant-form");
 const assistantInput = document.querySelector("#assistant-input");
 const assistantResponse = document.querySelector("#assistant-response");
+const assistantFile = document.querySelector("#assistant-file");
+const assistantAttach = document.querySelector("#assistant-attach");
+const assistantFiles = document.querySelector("#assistant-files");
+const assistantCopy = document.querySelector("#assistant-copy");
+let assistantAttachments = [];
 
 const profileContext = `
 David Raj Ramakrishnan is a Senior / Lead Immersive Architect in Bengaluru.
@@ -101,35 +106,157 @@ const localAssistantAnswer = (question) => {
   return "David is an immersive architect focused on Unity, XR, WebGL, Azure, OpenAI-assisted workflows, and AI-powered retail intelligence. Ask about SpeedShelf Lite, Shelf Intelligence, platform optimization, or leadership experience for a sharper answer.";
 };
 
+const readAssistantFile = (file) =>
+  new Promise((resolve, reject) => {
+    const isImage = file.type.startsWith("image/");
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      resolve({
+        name: file.name,
+        mimeType: file.type || "text/plain",
+        kind: isImage ? "image" : "text",
+        content: String(reader.result || ""),
+      });
+    };
+
+    reader.onerror = () => reject(new Error(`Could not read ${file.name}`));
+
+    if (isImage) {
+      reader.readAsDataURL(file);
+    } else {
+      reader.readAsText(file);
+    }
+  });
+
+const renderAssistantFiles = () => {
+  if (!assistantFiles) return;
+
+  assistantFiles.innerHTML = "";
+  assistantAttachments.forEach((file, index) => {
+    const chip = document.createElement("div");
+    chip.className = "assistant-file-chip";
+
+    const label = document.createElement("span");
+    label.textContent = file.name;
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.setAttribute("aria-label", `Remove ${file.name}`);
+    remove.textContent = "×";
+    remove.addEventListener("click", () => {
+      assistantAttachments = assistantAttachments.filter((_, fileIndex) => fileIndex !== index);
+      renderAssistantFiles();
+    });
+
+    chip.append(label, remove);
+    assistantFiles.append(chip);
+  });
+};
+
+const setAssistantAnswer = (answer) => {
+  assistantResponse.textContent = answer;
+  if (assistantCopy) {
+    assistantCopy.hidden = !answer.trim();
+    assistantCopy.textContent = "Copy response";
+  }
+};
+
 if (assistantForm && assistantInput && assistantResponse) {
+  assistantAttach?.addEventListener("click", () => assistantFile?.click());
+
+  assistantFile?.addEventListener("change", async () => {
+    const selectedFiles = Array.from(assistantFile.files || []);
+    if (!selectedFiles.length) return;
+
+    const allowedFiles = selectedFiles.slice(0, Math.max(0, 4 - assistantAttachments.length));
+    assistantResponse.classList.add("is-loading");
+    setAssistantAnswer("Adding attachments...");
+
+    try {
+      const loadedFiles = [];
+      for (const file of allowedFiles) {
+        const isImage = file.type.startsWith("image/");
+        const isTooLarge = isImage ? file.size > 4 * 1024 * 1024 : file.size > 240 * 1024;
+
+        if (isTooLarge) {
+          loadedFiles.push({
+            name: `${file.name} skipped`,
+            mimeType: "text/plain",
+            kind: "text",
+            content: "This file was too large to attach.",
+          });
+          continue;
+        }
+
+        loadedFiles.push(await readAssistantFile(file));
+      }
+
+      assistantAttachments = [...assistantAttachments, ...loadedFiles].slice(0, 4);
+      renderAssistantFiles();
+      setAssistantAnswer(
+        assistantAttachments.length
+          ? "Attachment ready. Add a question and send."
+          : "Try attaching an image under 4 MB or a script file under 240 KB."
+      );
+    } catch (error) {
+      setAssistantAnswer("I could not read that attachment. Try a smaller image or text-based script file.");
+    } finally {
+      assistantResponse.classList.remove("is-loading");
+      assistantFile.value = "";
+    }
+  });
+
+  assistantCopy?.addEventListener("click", async () => {
+    const text = assistantResponse.textContent.trim();
+    if (!text) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      assistantCopy.textContent = "Copied";
+    } catch (error) {
+      assistantCopy.textContent = "Select and copy";
+    }
+  });
+
   assistantForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const question = assistantInput.value.trim();
-    if (!question) return;
+    if (!question && !assistantAttachments.length) return;
 
-    const submitButton = assistantForm.querySelector("button");
+    const submitButton = assistantForm.querySelector(".assistant-submit");
     submitButton.disabled = true;
     assistantResponse.classList.add("is-loading");
-    assistantResponse.textContent = "Thinking through the portfolio...";
+    if (assistantCopy) assistantCopy.hidden = true;
+    setAssistantAnswer("Thinking through the portfolio...");
 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, context: profileContext }),
+        body: JSON.stringify({
+          question: question || "Please analyze the attached file.",
+          context: profileContext,
+          attachments: assistantAttachments,
+        }),
       });
 
       if (!response.ok) throw new Error("Assistant endpoint unavailable.");
 
       const data = await response.json();
-      assistantResponse.textContent = data.answer || localAssistantAnswer(question);
+      setAssistantAnswer(data.answer || localAssistantAnswer(question));
     } catch (error) {
-      if (question.length > 500 || /class |using |void |public |private |update\(|start\(|monobehaviour/i.test(question)) {
-        assistantResponse.textContent =
-          "The code assistant needs the backend OpenAI API to be available. Please deploy with OPENAI_API_KEY set, then try your C# or Unity snippet again.";
+      if (
+        assistantAttachments.length ||
+        question.length > 500 ||
+        /class |using |void |public |private |update\(|start\(|monobehaviour/i.test(question)
+      ) {
+        setAssistantAnswer(
+          "The file and code assistant needs the backend OpenAI API to be available. Please deploy with OPENAI_API_KEY set, then try the attachment or code snippet again."
+        );
       } else {
-        assistantResponse.textContent = localAssistantAnswer(question);
+        setAssistantAnswer(localAssistantAnswer(question));
       }
     } finally {
       assistantResponse.classList.remove("is-loading");

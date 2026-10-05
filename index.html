@@ -145,21 +145,36 @@
         <form class="assistant-box" id="assistant-form">
           <label class="visually-hidden" for="assistant-input">Ask a question about David Raj</label>
           <div class="assistant-input-row">
-            <input
+            <textarea
               id="assistant-input"
-              type="search"
-              autocomplete="off"
               placeholder="Ask about David, or paste C# / Unity code for help"
               maxlength="12000"
-              required
+              rows="3"
+            ></textarea>
+            <input
+              class="visually-hidden"
+              id="assistant-file"
+              type="file"
+              accept="image/*,.cs,.js,.ts,.tsx,.jsx,.json,.txt,.shader,.hlsl,.cginc,.html,.css"
+              multiple
             />
             <button class="assistant-submit" type="submit" aria-label="Ask profile assistant">
               <span aria-hidden="true">→</span>
             </button>
           </div>
+          <div class="assistant-tools">
+            <button class="assistant-tool-btn" id="assistant-attach" type="button">
+              <span aria-hidden="true">+</span>
+              Attach image or script
+            </button>
+            <div class="assistant-files" id="assistant-files" aria-live="polite"></div>
+          </div>
           <div class="assistant-response" id="assistant-response" role="status" aria-live="polite">
             Try asking about SpeedShelf Lite, XR platforms, AI integration, WebGL optimization, or paste C# code for review.
           </div>
+          <button class="assistant-copy-btn" id="assistant-copy" type="button" hidden>
+            Copy response
+          </button>
           <p class="assistant-note">
             Uses a backend API when available. Do not enter confidential company data.
           </p>

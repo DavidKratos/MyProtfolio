@@ -8,13 +8,14 @@ export default async function handler(request, response) {
     return response.status(503).json({ error: "Assistant is not configured yet." });
   }
 
-  const { question, context } = request.body || {};
+  const { question, context, attachments } = request.body || {};
   if (!question || typeof question !== "string") {
     return response.status(400).json({ error: "Question is required." });
   }
 
   const cleanQuestion = question.slice(0, 12000);
   const cleanContext = typeof context === "string" ? context.slice(0, 2400) : "";
+  const safeAttachments = Array.isArray(attachments) ? attachments.slice(0, 4) : [];
 
   const getResponseText = (data) => {
     if (typeof data.output_text === "string" && data.output_text.trim()) {
@@ -32,6 +33,36 @@ export default async function handler(request, response) {
   };
 
   try {
+    const content = [
+      {
+        type: "input_text",
+        text: `David's profile context, for portfolio-related questions:\n${cleanContext}\n\nUser message:\n${cleanQuestion}`,
+      },
+    ];
+
+    safeAttachments.forEach((file) => {
+      if (!file || typeof file !== "object") return;
+
+      const name = typeof file.name === "string" ? file.name.slice(0, 120) : "attachment";
+      const contentValue = typeof file.content === "string" ? file.content : "";
+
+      if (file.kind === "image" && contentValue.startsWith("data:image/")) {
+        content.push({
+          type: "input_image",
+          image_url: contentValue,
+          detail: "auto",
+        });
+        return;
+      }
+
+      if (file.kind === "text" && contentValue.trim()) {
+        content.push({
+          type: "input_text",
+          text: `Attached script/text file: ${name}\n\n${contentValue.slice(0, 30000)}`,
+        });
+      }
+    });
+
     const openAiResponse = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
@@ -41,8 +72,13 @@ export default async function handler(request, response) {
       body: JSON.stringify({
         model: process.env.OPENAI_MODEL || "gpt-5",
         instructions:
-          "You are an AI assistant embedded in David Raj Ramakrishnan's portfolio. Answer like a helpful ChatGPT-style assistant. If the user asks about David, use the supplied profile context and do not invent facts. If the user pastes C#, Unity, WebGL, JavaScript, or other code, explain it, debug it, refactor it, or suggest fixes clearly. For code answers, be practical and include corrected snippets when useful. Do not claim to run code. Do not ask for secrets, API keys, passwords, tokens, or confidential company data.",
-        input: `David's profile context, for portfolio-related questions:\n${cleanContext}\n\nUser message:\n${cleanQuestion}`,
+          "You are an AI assistant embedded in David Raj Ramakrishnan's portfolio. Answer like a helpful ChatGPT-style assistant. If the user asks about David, use the supplied profile context and do not invent facts. If the user pastes or attaches C#, Unity, WebGL, JavaScript, or other code, explain it, debug it, refactor it, or suggest fixes clearly. If the user attaches an image, inspect it and answer their question about it. For code answers, be practical and include corrected snippets when useful. Do not claim to run code. Do not ask for secrets, API keys, passwords, tokens, or confidential company data.",
+        input: [
+          {
+            role: "user",
+            content,
+          },
+        ],
       }),
     });
 
