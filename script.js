@@ -125,7 +125,12 @@ if (assistantForm && assistantInput && assistantResponse) {
       const data = await response.json();
       assistantResponse.textContent = data.answer || localAssistantAnswer(question);
     } catch (error) {
-      assistantResponse.textContent = localAssistantAnswer(question);
+      if (question.length > 500 || /class |using |void |public |private |update\(|start\(|monobehaviour/i.test(question)) {
+        assistantResponse.textContent =
+          "The code assistant needs the backend OpenAI API to be available. Please deploy with OPENAI_API_KEY set, then try your C# or Unity snippet again.";
+      } else {
+        assistantResponse.textContent = localAssistantAnswer(question);
+      }
     } finally {
       assistantResponse.classList.remove("is-loading");
       submitButton.disabled = false;

@@ -135,10 +135,10 @@
       <section id="ai-assistant" class="ai-assistant reveal" aria-labelledby="assistant-title">
         <div class="assistant-copy">
           <p class="eyebrow">AI profile search</p>
-          <h2 id="assistant-title">Ask about David’s work, skills, and projects.</h2>
+          <h2 id="assistant-title">Ask about David’s work, skills, projects, or code.</h2>
           <p>
-            A portfolio assistant can answer from this page and route questions through a secure
-            server endpoint when deployed with an OpenAI API key.
+            A portfolio assistant can answer from this page, review pasted C# or Unity snippets,
+            and route questions through a secure server endpoint when deployed with an OpenAI API key.
           </p>
         </div>
 
@@ -149,8 +149,8 @@
               id="assistant-input"
               type="search"
               autocomplete="off"
-              placeholder="Ask: What AI retail systems has David built?"
-              maxlength="360"
+              placeholder="Ask about David, or paste C# / Unity code for help"
+              maxlength="12000"
               required
             />
             <button class="assistant-submit" type="submit" aria-label="Ask profile assistant">
@@ -158,7 +158,7 @@
             </button>
           </div>
           <div class="assistant-response" id="assistant-response" role="status" aria-live="polite">
-            Try asking about SpeedShelf Lite, XR platforms, AI integration, WebGL optimization, or leadership experience.
+            Try asking about SpeedShelf Lite, XR platforms, AI integration, WebGL optimization, or paste C# code for review.
           </div>
           <p class="assistant-note">
             Uses a backend API when available. Do not enter confidential company data.

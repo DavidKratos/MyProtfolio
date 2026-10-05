@@ -13,7 +13,7 @@ export default async function handler(request, response) {
     return response.status(400).json({ error: "Question is required." });
   }
 
-  const cleanQuestion = question.slice(0, 360);
+  const cleanQuestion = question.slice(0, 12000);
   const cleanContext = typeof context === "string" ? context.slice(0, 2400) : "";
 
   const getResponseText = (data) => {
@@ -41,8 +41,8 @@ export default async function handler(request, response) {
       body: JSON.stringify({
         model: process.env.OPENAI_MODEL || "gpt-5",
         instructions:
-          "You are David Raj Ramakrishnan's portfolio assistant. Answer only from the supplied profile context. Be concise, professional, and useful. If the question asks for something outside the profile, say you can only answer about David's work, skills, projects, and contact details.",
-        input: `Profile context:\n${cleanContext}\n\nVisitor question:\n${cleanQuestion}`,
+          "You are an AI assistant embedded in David Raj Ramakrishnan's portfolio. Answer like a helpful ChatGPT-style assistant. If the user asks about David, use the supplied profile context and do not invent facts. If the user pastes C#, Unity, WebGL, JavaScript, or other code, explain it, debug it, refactor it, or suggest fixes clearly. For code answers, be practical and include corrected snippets when useful. Do not claim to run code. Do not ask for secrets, API keys, passwords, tokens, or confidential company data.",
+        input: `David's profile context, for portfolio-related questions:\n${cleanContext}\n\nUser message:\n${cleanQuestion}`,
       }),
     });
 
@@ -57,7 +57,7 @@ export default async function handler(request, response) {
     return response.status(200).json({
       answer:
         answer ||
-        "I can answer questions about David's work, skills, projects, and contact details. Try asking about SpeedShelf Lite, XR platforms, WebGL, or AI retail intelligence.",
+        "I can answer questions about David's work or help with pasted code. Try asking about SpeedShelf Lite, XR platforms, WebGL, AI retail intelligence, or paste a C# snippet.",
     });
   } catch (error) {
     return response.status(500).json({ error: "Assistant request failed." });
