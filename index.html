@@ -1,138 +1,128 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Portfolio of David Raj Ramakrishnan, Senior/Lead Immersive Architect specializing in Unity, XR, WebGL, Azure, AI integration, and retail intelligence systems."
-    />
-    <title>David Raj Ramakrishnan | Immersive Architect</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111816" />
+  <meta name="description" content="David Raj Ramakrishnan, Senior Software Engineer and Technical Lead. 10+ years building software, Unity/C#, XR, WebGL and Azure-connected retail visualization." />
+  <title>David Raj Ramakrishnan | Unity &amp; Software Technical Lead</title>
   <link rel="stylesheet" href="styles.css" />
-
-<script>
-  window.va = window.va || function () {
-    (window.vaq = window.vaq || []).push(arguments);
-  };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-
+  <link rel="preload" as="image" href="assets/immersive-studio.webp" />
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
-  <body>
-    <canvas id="glow-field" aria-hidden="true"></canvas>
-    <div class="cursor-glow" aria-hidden="true"></div>
-
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="David Raj Ramakrishnan home">
-        <span class="brand-mark">DR</span>
-        <span>David Raj</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#work">Work</a>
-        <a href="#systems">Systems</a>
-        <a href="#experience">Experience</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="David Raj home"><span class="brand-mark">DR<span>.</span></span><span>David Raj</span></a>
+      <nav class="nav-links" id="site-navigation" aria-label="Main navigation">
+        <a href="#work">Selected work</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#ai-assistant">Ask AI</a><a href="#contact">Contact</a>
       </nav>
-      <a class="nav-cta" href="assets/DAVID_RAJ_RAMAKRISHNAN_XR.pdf" download>
-        <span aria-hidden="true">↓</span>
-        Resume
-      </a>
-    </header>
-
-    <main id="top">
-      <section class="hero section-grid">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">Senior / Lead Immersive Architect</p>
-          <h1>Building AI-assisted XR, WebGL, and retail intelligence systems at production speed.</h1>
-          <p class="hero-text">
-            David Raj Ramakrishnan designs scalable immersive platforms across Unity, XR, WebGL,
-            Azure, and OpenAI-assisted workflows, with a strong focus on SpeedShelf Lite,
-            planogram visualization, and intelligent shelf analytics.
-          </p>
-          <p class="exploring">
-            Currently exploring Agentic AI &amp; AI-powered retail intelligence systems.
-          </p>
-        <div class="hero-actions">
-            <a class="primary-btn magnetic" href="#work">
-              <span>View featured systems</span>
-              <span aria-hidden="true">→</span>
-            </a>
-            <a class="secondary-btn magnetic" href="assets/DAVID_RAJ_RAMAKRISHNAN_XR.pdf" download>
-              <span aria-hidden="true">↓</span>
-              Download resume
-            </a>
+      <div class="header-actions">
+        <a class="nav-cta" href="assets/DAVID_RAJ_RAMAKRISHNAN_TechLead.pdf" download><i data-lucide="download" aria-hidden="true"></i><span>Resume</span></a>
+        <button class="menu-toggle icon-button" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <img class="hero-image" src="assets/immersive-studio.webp" alt="Illustrative engineering studio with a mixed reality headset and retail shelf visualization on a monitor" fetchpriority="high" />
+      <div class="hero-inner shell">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-mark"></span>Senior Software Engineer / Technical Lead</p>
+          <h1 id="hero-title">David Raj<br />Ramakrishnan<span>.</span></h1>
+          <p class="hero-text">Engineering the space between<br class="desktop-break" /> software and real-world experiences.</p>
+          <p class="hero-detail">Unity &amp; C# architecture. Immersive products.<br />Cloud-connected systems, built to perform.</p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#work">Explore my work <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="hero-link" href="#ai-assistant"><i data-lucide="sparkles" aria-hidden="true"></i>Start a conversation</a>
           </div>
         </div>
-
-        <aside class="hero-panel reveal" aria-label="Profile summary">
-<div class="avatar-shell">
-  <div class="avatar image-avatar">
-    <img src="assets/david-profile.png" alt="David Raj Ramakrishnan" />
-    <span class="avatar-orbit orbit-one"></span>
-    <span class="avatar-orbit orbit-two"></span>
-  </div>
-</div>
-          <div class="signal-stack">
-            <div>
-              <span class="signal-label">Focus</span>
-              <strong>Immersive architecture + AI retail systems</strong>
-            </div>
-            <div>
-              <span class="signal-label">Platforms</span>
-              <strong>Quest, Android, iOS, Windows, WebGL</strong>
-            </div>
-            <div>
-              <span class="signal-label">Cloud</span>
-              <strong>Azure services, REST APIs, analytics</strong>
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section class="metrics reveal" aria-label="Career metrics">
-        <article>
-          <span class="metric-value" data-count="7">0</span>
-          <span class="metric-suffix">+ yrs</span>
-          <p>Unity, XR, WebGL, and interactive platform delivery</p>
-        </article>
-        <article>
-          <span class="metric-value" data-count="20">0</span>
-          <span class="metric-suffix">+ POCs</span>
-          <p>VR/AR concepts showcased to senior executive stakeholders</p>
-        </article>
-        <article>
-          <span class="metric-value" data-count="5">0</span>
-          <span class="metric-suffix"> platforms</span>
-          <p>Optimized across Oculus Quest, mobile, desktop, and browser targets</p>
-        </article>
-        <article>
-          <span class="metric-value" data-count="4">0</span>
-          <span class="metric-suffix"></span>
-          <p>Customer Delight award for SpeedShelf-era delivery impact</p>
-        </article>
-      </section>
-
-      <section id="about" class="about section-grid">
-        <div class="section-kicker reveal">About</div>
-        <div class="section-copy reveal">
-          <h2>Immersive product builder with architecture instincts.</h2>
-          <p>
-            I lead and build interactive digital experiences across VR, AR, MR, WebGL, 2D, and
-            3D environments. My work spans ideation, prototyping, architecture, asset optimization,
-            cloud-connected workflows, analytics, and production delivery for enterprise and
-            retail visualization systems.
-          </p>
-          <p>
-            The current direction is sharply AI-assisted: using OpenAI integration concepts,
-            Agentic AI patterns, and automated engineering workflows to compress iteration loops,
-            generate useful retail intelligence, and help teams ship immersive systems with
-            cleaner architecture.
-          </p>
+      </div>
+      <div class="hero-bottom shell"><span><i data-lucide="map-pin" aria-hidden="true"></i>Bengaluru, India</span><span class="hero-image-credit">XR studio / illustrative visual</span><a href="#work" aria-label="Scroll to selected work"><i data-lucide="arrow-down" aria-hidden="true"></i></a></div>
+    </section>
+    <section class="metrics shell" aria-label="Career highlights">
+      <div><strong><span data-count="10">10</span>+</strong><span>Years in software</span></div>
+      <div><strong><span data-count="8">8</span>+</strong><span>Years with Unity &amp; C#</span></div>
+      <div><strong>~<span data-count="80">80</span>%</strong><span>Less manual review effort<small>Shelf analytics &amp; recommendations</small></span></div>
+      <div><strong><span data-count="20">20</span>+</strong><span>Client proof-of-concepts</span></div>
+    </section>
+    <section id="work" class="section shell">
+      <div class="section-heading reveal"><p class="eyebrow">01 / Selected work</p><h2>Complex systems.<br />Tangible outcomes.</h2><p>Enterprise visualization, real-time rendering, and tools that make engineering work better.</p></div>
+      <article class="project-row reveal">
+        <div class="project-visual shelf-visual" aria-label="Diagram of the SpeedShelf Lite project workflow">
+          <div class="visual-top"><span><i data-lucide="layers-3" aria-hidden="true"></i>SpeedShelf Lite</span><span>WebGL / Azure</span></div>
+          <div class="shelf-diagram" aria-hidden="true"><div class="shelf-row"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div><div class="shelf-row"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div><div class="shelf-row"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div></div>
+          <div class="visual-flow"><span>PSA data</span><i data-lucide="arrow-right" aria-hidden="true"></i><span>Product matching</span><i data-lucide="arrow-right" aria-hidden="true"></i><span>3D planogram</span></div>
+          <span class="visual-caption">Workflow illustration</span>
         </div>
-      </section>
-
-      <section id="ai-assistant" class="ai-assistant reveal" aria-labelledby="assistant-title">
+        <div class="project-copy"><p class="eyebrow">Capgemini / Procter &amp; Gamble</p><h3>SpeedShelf Lite</h3><p class="project-subtitle">WebGL architecture &amp; Azure integration</p><p>Architect and team lead for a browser-based retail visualization pilot. From authenticated login to product retrieval and planogram rendering, I connect the experience from end to end.</p><div class="tags"><span>Unity</span><span>C#</span><span>WebGL</span><span>Azure</span><span>FastAPI</span></div>
+          <details><summary>Explore the engineering <i data-lucide="plus" aria-hidden="true"></i></summary><ul><li>Defined the migration roadmap, high-level design and memory strategy.</li><li>Built indexed product matching using normalized identifiers and folder filtering.</li><li>Implemented batched texture processing and CPU/GPU handling.</li><li>Integrated authenticated REST APIs and Azure Blob Storage.</li></ul></details>
+        </div>
+      </article>
+      <article class="project-row reverse reveal">
+        <div class="project-visual capture-visual" aria-label="Tiled image capture and stitching output specification">
+          <div class="visual-top"><span><i data-lucide="scan" aria-hidden="true"></i>High-resolution capture</span><span>Unity / ImageMagick</span></div>
+          <div class="capture-grid" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span></div>
+          <div class="capture-spec"><strong>300 <small>DPI</small></strong><span>Up to approximately<br /><b>25,000 × 39,000 px</b></span></div>
+          <span class="visual-caption">Tiled capture / output specification</span>
+        </div>
+        <div class="project-copy"><p class="eyebrow">Rendering / Automation</p><h3>From pixels<br />to production.</h3><p class="project-subtitle">SpeedShelf Desktop &amp; tiled rendering</p><p>Retail visualization with planogram import, product-image replacement, labels and price tags. A tiled capture and backend stitching workflow takes the output beyond Unity's texture-size limits.</p><div class="tags"><span>URP</span><span>RenderTexture</span><span>Python</span><span>ImageMagick</span></div>
+          <details><summary>Explore the engineering <i data-lucide="plus" aria-hidden="true"></i></summary><ul><li>Front and angled camera capture with orthographic and perspective views.</li><li>Tiled rendering within Unity texture-size constraints.</li><li>FastAPI and ImageMagick stitching for high-resolution exports.</li><li>Reusable UGUI workflows for interactive shelf visualization.</li></ul></details>
+        </div>
+      </article>
+      <div class="impact-strip reveal"><i data-lucide="sparkles" aria-hidden="true"></i><div><p class="eyebrow">AI-enabled enterprise tools</p><h3>Approximately 80% less manual review effort.</h3><p>OpenAI API integration into shelf analytics and recommendation workflows, as reported in my latest resume.</p></div><a href="#ai-assistant" aria-label="Ask about AI integration"><i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>
+    </section>
+    <section id="systems" class="architecture-band">
+      <div class="shell section">
+        <div class="section-heading reveal"><p class="eyebrow">02 / Architecture</p><h2>Every layer matters.</h2><p>Clear boundaries. Reusable components. Performance considered from the start.</p></div>
+        <div class="architecture-flow reveal">
+          <article><span class="step-index">01</span><i data-lucide="database" aria-hidden="true"></i><h3>Data &amp; identity</h3><p>PSA imports, MSAL authentication, normalized product identifiers.</p></article>
+          <article><span class="step-index">02</span><i data-lucide="cloud" aria-hidden="true"></i><h3>Cloud &amp; services</h3><p>Azure storage, authenticated REST APIs, Python &amp; FastAPI.</p></article>
+          <article><span class="step-index">03</span><i data-lucide="box" aria-hidden="true"></i><h3>Real-time runtime</h3><p>Unity/C#, WebGL, optimized textures, batching &amp; memory.</p></article>
+          <article><span class="step-index">04</span><i data-lucide="scan-line" aria-hidden="true"></i><h3>Output &amp; insights</h3><p>Interactive planograms, tiled renders, AI recommendations.</p></article>
+        </div>
+      </div>
+    </section>
+    <section id="about" class="about section shell">
+      <div class="portrait-wrap reveal"><img src="assets/david-profile.png" alt="David Raj Ramakrishnan" width="1166" height="1158" loading="lazy" /><div class="portrait-caption"><strong>David Raj Ramakrishnan</strong><span>Engineer. Architect. Technical mentor.</span></div></div>
+      <div class="about-copy reveal"><p class="eyebrow">03 / The person behind the systems</p><h2>Hands-on engineering.<br />A wider perspective.</h2><p>I am a senior software engineer and technical lead with 10+ years in software development, including 8+ years building with Unity and C#.</p><p>My work spans interactive applications, XR, desktop and WebGL platforms, Azure integration, and AI-enabled enterprise tools. I care about architecture that teams can build on, interfaces people can use, and performance you can measure.</p><p>Alongside delivery, I guide architecture reviews, establish coding standards, and mentor engineers. I am also pursuing an Executive MBA at Dayananda Sagar University.</p><a class="text-link" href="assets/DAVID_RAJ_RAMAKRISHNAN_TechLead.pdf" download>Read my latest resume <i data-lucide="arrow-down-to-line" aria-hidden="true"></i></a></div>
+    </section>
+    <section id="experience" class="section shell experience">
+      <div class="section-heading reveal"><p class="eyebrow">04 / Career</p><h2>A decade of building.</h2></div>
+      <div class="timeline">
+        <article class="timeline-item reveal"><div class="timeline-date">Jun 2023 — Present<span>Capgemini / Bengaluru</span></div><div><h3>Technical Lead &amp; Solution Architect</h3><p class="company">Senior Consultant · Client: Procter &amp; Gamble</p><p>Lead SpeedShelf architecture and WebGL migration, optimize memory and rendering, connect Azure services, and guide implementation through reviews, mentoring and Agile delivery.</p></div><i data-lucide="move-up-right" aria-hidden="true"></i></article>
+        <article class="timeline-item reveal"><div class="timeline-date">Oct 2020 — Apr 2023<span>Osmo (Byju's) / Bengaluru</span></div><div><h3>Game Engineer II</h3><p class="company">Software Engineer</p><p>Built reusable frameworks and components across product lines. Improved application architecture and UI systems, and supported parallel releases with cross-functional engineering teams.</p></div><i data-lucide="gamepad-2" aria-hidden="true"></i></article>
+        <article class="timeline-item reveal"><div class="timeline-date">Aug 2016 — Oct 2020<span>Tech Mahindra / India</span></div><div><h3>Junior Software Engineer</h3><p class="company">Enterprise applications &amp; client prototypes</p><p>Integrated real-time operational data and delivered more than 20 proof-of-concept solutions for clients and executives. Recognized twice for engineering contributions and demonstrations.</p></div><i data-lucide="code-2" aria-hidden="true"></i></article>
+      </div>
+    </section>
+    <section id="skills" class="capabilities-band">
+      <div class="section shell">
+        <div class="section-heading reveal"><p class="eyebrow">05 / Capabilities</p><h2>The craft behind the work.</h2></div>
+        <div class="skill-matrix reveal">
+          <article><i data-lucide="code-2" aria-hidden="true"></i><div><h3>Software architecture</h3><p>C#, OOP, SOLID, design patterns, modular architecture, reusable components.</p></div></article>
+          <article><i data-lucide="headset" aria-hidden="true"></i><div><h3>Unity &amp; XR</h3><p>Unity3D, UGUI, TextMeshPro, ScriptableObjects, OpenXR, XR Interaction Toolkit, Quest.</p></div></article>
+          <article><i data-lucide="gauge" aria-hidden="true"></i><div><h3>Performance</h3><p>Unity Profiler, memory management, object pooling, garbage collection, texture &amp; rendering optimization.</p></div></article>
+          <article><i data-lucide="cloud-cog" aria-hidden="true"></i><div><h3>Cloud &amp; integration</h3><p>Azure Blob Storage, App Service, Container Apps, REST, MSAL, Python, FastAPI, OpenAI APIs.</p></div></article>
+          <article><i data-lucide="monitor" aria-hidden="true"></i><div><h3>Real-time visualization</h3><p>WebGL, URP, RenderTexture, planogram workflows, custom editor tools, tiled image processing.</p></div></article>
+          <article><i data-lucide="users" aria-hidden="true"></i><div><h3>Technical leadership</h3><p>Code reviews, mentoring, Git LFS, Agile/Scrum, technical design, documentation &amp; delivery.</p></div></article>
+        </div>
+      </div>
+    </section>
+    <section class="credentials section shell">
+      <div class="section-heading reveal"><p class="eyebrow">06 / Recognition &amp; learning</p><h2>Progress, backed by proof.</h2></div>
+      <div class="credential-grid reveal">
+        <article><i data-lucide="award" aria-hidden="true"></i><span>April 2026</span><h3>Client appreciation</h3><p>SpeedShelf Lite pilot architecture.</p></article>
+        <article><i data-lucide="trophy" aria-hidden="true"></i><span>April 2025</span><h3>Customer Delight Award</h3><p>Application delivery and performance at Capgemini.</p></article>
+        <article><i data-lucide="badge-check" aria-hidden="true"></i><span>Certification</span><h3>Unity Certified Developer</h3><p>Unity development certification.</p></article>
+        <article><i data-lucide="graduation-cap" aria-hidden="true"></i><span>Education</span><h3>Executive MBA</h3><p>Dayananda Sagar University, 2025–2027 · In progress.</p><small>BCA · Periyar University · 2013–2016</small></article>
+      </div>
+    </section>
+    <div class="assistant-band">
+      <div class="section shell">
+        <div class="section-heading reveal"><p class="eyebrow">07 / A conversation away</p><h2>Bring your curiosity.</h2></div>
+        <section id="ai-assistant" class="ai-assistant reveal" aria-labelledby="assistant-title">
         <header class="assistant-header">
           <div>
             <p class="eyebrow">David Raj / AI assistant</p>
@@ -181,278 +171,20 @@
             </button>
           </div>
         </form>
-        <p class="assistant-note">AI can make mistakes. Check important details. Dont use any confidential information & office data</p>
+        <p class="assistant-note">AI can make mistakes. Check important details.</p>
       </section>
-
-      <section id="work" class="featured">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Featured systems</p>
-          <h2>Retail intelligence, immersive visualization, and optimization-heavy delivery.</h2>
-        </div>
-        <div class="project-grid">
-          <article class="project-card featured-card reveal magnetic">
-            <div class="card-topline">
-              <span>01</span>
-              <span>Enterprise retail visualization</span>
-            </div>
-            <h3>SpeedShelf Lite</h3>
-            <p>
-              Acting as aspiring Architect and Technical Lead, driving scalable system design,
-              cloud-enabled shelf visualization, 3D simulation workflows, and WebGL-ready
-              performance planning for enterprise merchandising experiences.
-            </p>
-            <ul>
-              <li>Architecture ownership across Unity, WebGL, Azure, and analytics layers</li>
-              <li>Retail shelf simulations aligned to business and client requirements</li>
-              <li>Optimized 2D/3D assets for stability across browser and device targets</li>
-            </ul>
-          </article>
-
-          <article class="project-card reveal magnetic">
-            <div class="card-topline">
-              <span>02</span>
-              <span>AI proposal</span>
-            </div>
-            <h3>Shelf Intelligence</h3>
-            <p>
-              AI-powered proposal integrating OpenAI APIs with PSA data to generate automated
-              retail insights, planogram intelligence, shelf feedback, and future merchandising
-              recommendations.
-            </p>
-            <ul>
-              <li>Agentic AI exploration for automated merchandising analysis</li>
-              <li>Insight generation designed around shelf analytics and retail teams</li>
-              <li>Proposal path for scalable AI-assisted decision support</li>
-            </ul>
-          </article>
-
-          <article class="project-card reveal magnetic">
-            <div class="card-topline">
-              <span>03</span>
-              <span>Rendering architecture</span>
-            </div>
-            <h3>Image Stitching Architecture using ImageMagick</h3>
-            <p>
-              Proposed stitching pipelines for high-resolution shelf and planogram imagery,
-              structured to handle large visual outputs while protecting render quality,
-              automation reliability, and downstream review workflows.
-            </p>
-            <ul>
-              <li>Automation-first approach for repeatable image processing</li>
-              <li>Designed for scalable visual exports and retailer review cycles</li>
-              <li>Supports performance-minded WebGL and planogram presentation needs</li>
-            </ul>
-          </article>
-
-          <article class="project-card reveal magnetic">
-            <div class="card-topline">
-              <span>04</span>
-              <span>3D merchandising systems</span>
-            </div>
-            <h3>Planogram Visualization Systems</h3>
-            <p>
-              Interactive 3D visualization systems for retail planning, shelf simulation,
-              stakeholder demos, analytics-driven UX, and immersive review across WebGL,
-              desktop, and XR-ready environments.
-            </p>
-            <ul>
-              <li>Planogram intelligence and PSA data workflows</li>
-              <li>Scalable interactive scenes with optimized assets and UI</li>
-              <li>Retailer-facing visualization for faster merchandising decisions</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section id="systems" class="systems section-grid">
-        <div class="section-kicker reveal">Architecture</div>
-        <div class="pipeline reveal">
-          <h2>Systems thinking across content, cloud, AI, and real-time rendering.</h2>
-          <div class="pipeline-row">
-            <span>PSA / Planogram Data</span>
-            <span>AI Insight Layer</span>
-            <span>Unity / WebGL Runtime</span>
-            <span>Retailer Visualization</span>
-          </div>
-          <div class="architecture-grid">
-            <article>
-              <h3>WebGL Optimization</h3>
-              <p>Asset budgets, draw-call control, runtime stability, texture compression, and browser-friendly UI responsiveness.</p>
-            </article>
-            <article>
-              <h3>AI-Assisted Engineering</h3>
-              <p>OpenAI-assisted prototypes, automated insight generation, agentic workflow experiments, and delivery accelerators.</p>
-            </article>
-            <article>
-              <h3>Cloud &amp; Analytics</h3>
-              <p>Azure-connected workflows, REST API integration, telemetry thinking, and maintainable system boundaries.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="experience" class="experience">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Experience</p>
-          <h2>7+ years across immersive enterprise products, education games, and telecom XR.</h2>
-        </div>
-        <div class="timeline">
-          <article class="timeline-item reveal">
-            <span class="timeline-date">2023 - Present</span>
-            <div>
-              <h3>Immersive Developer - Senior Consultant</h3>
-              <p class="company">Capgemini, Bengaluru</p>
-              <p>
-                Leading SpeedShelf Lite development, scalable architecture, AI retail proposals,
-                VR/AR/MR/WebGL feature delivery, Git governance, Agile planning, and performance
-                optimization across Quest, mobile, desktop, and browser environments.
-              </p>
-            </div>
-          </article>
-          <article class="timeline-item reveal">
-            <span class="timeline-date">2020 - 2023</span>
-            <div>
-              <h3>Game Engineer - 2</h3>
-              <p class="company">Osmo by Byju's, Bengaluru</p>
-              <p>
-                Developed iOS and Android education games, parent feedback features, child
-                activity tracking, universal settings flows, multi-device optimizations, and
-                clean Git-based delivery practices.
-              </p>
-            </div>
-          </article>
-          <article class="timeline-item reveal">
-            <span class="timeline-date">2016 - 2020</span>
-            <div>
-              <h3>Jr. Software Engineer</h3>
-              <p class="company">Tech Mahindra, Bengaluru</p>
-              <p>
-                Built VR/AR telecom simulations, AR Tower Finder, interactive NOC replicas,
-                animated 3D models, live-feed integrations, and 20+ executive-facing proofs of
-                concept.
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="skills" class="skills">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Capabilities</p>
-          <h2>Deep Unity/XR craft with cloud, AI, and architecture fluency.</h2>
-        </div>
-        <div class="skill-matrix reveal">
-          <div>
-            <h3>Immersive</h3>
-            <p>VR, AR, MR, Unity3D, C#, Unreal Blueprint, Oculus Rift, HTC Vive, ARCore</p>
-          </div>
-          <div>
-            <h3>Platforms</h3>
-            <p>WebGL, Android, iOS, Windows, Quest, 2D/3D applications, cross-device optimization</p>
-          </div>
-          <div>
-            <h3>AI + Cloud</h3>
-            <p>OpenAI integration, Generative AI, Agentic AI concepts, Azure Cloud, REST APIs</p>
-          </div>
-          <div>
-            <h3>Architecture</h3>
-            <p>System design, scalable codebases, custom editor tools, analytics integration, GitHub</p>
-          </div>
-          <div>
-            <h3>Retail Intelligence</h3>
-            <p>SpeedShelf Lite, shelf analytics, PSA data, planogram visualization, ImageMagick pipelines</p>
-          </div>
-          <div>
-            <h3>Leadership</h3>
-            <p>Technical leadership, Agile delivery, Jira, Miro, ZenDesk, stakeholder demos</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="credentials section-grid">
-        <div class="section-kicker reveal">Proof</div>
-        <div class="credential-grid reveal">
-          <article>
-            <span>Certification</span>
-            <h3>Unity Certified Developer</h3>
-            <p>Unity Technologies</p>
-          </article>
-          <article>
-            <span>Education</span>
-            <h3>Executive MBA</h3>
-            <p>Dayananda Sagar University, 2025 - 2027</p>
-          </article>
-          <article>
-            <span>Recognition</span>
-            <h3>Customer Delight Award</h3>
-            <p>Jan 2025 - June 2025</p>
-          </article>
-          <article>
-            <span>Degree</span>
-            <h3>Bachelor of Computer Applications</h3>
-            <p>Don Bosco College of Arts &amp; Science, Periyar University</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="contact" class="contact reveal">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>Let’s architect the next immersive retail intelligence layer.</h2>
-          <p>
-            Available for senior immersive engineering, XR/WebGL architecture, Unity platform
-            leadership, AI-assisted workflow strategy, and retail visualization systems.
-          </p>
-        </div>
-<div class="contact-actions">
-  <a class="primary-btn magnetic" href="mailto:itsmedavidraj@gmail.com">
-    Email David
-  </a>
-
-  <a 
-    class="secondary-btn magnetic" 
-    href="https://linkedin.com/in/david-raj-ramakrishnan-47001696/" 
-    target="_blank" 
-    rel="noreferrer"
-  >
-    LinkedIn
-  </a>
-
-  <a 
-    class="secondary-btn magnetic" 
-    href="assets/DAVID_RAJ_RAMAKRISHNAN_XR.pdf" 
-    download
-  >
-    Resume PDF
-  </a>
-
-  <a 
-    class="secondary-btn magnetic" 
-    href="https://youtu.be/-evZlZPUTQk?si=QLQ1kJ4fLNVZItci" 
-    target="_blank" 
-    rel="noopener noreferrer"
-  >
-    Video Portfolio 2019
-  </a>
-
-  <a 
-    class="secondary-btn magnetic" 
-    href="https://wa.me/919092348258" 
-    target="_blank" 
-    rel="noopener noreferrer"
-  >
-    WhatsApp Connect
-  </a>
-</div>
-      </section>
-    </main>
-
-    <footer>
-      <p>David Raj Ramakrishnan · Bengaluru, India · Unity · XR · WebGL · Azure · AI Integration</p>
-    </footer>
-
-    <script src="assets/vendor/marked.umd.js"></script>
-    <script src="assets/vendor/lucide.min.js"></script>
-    <script src="script.js"></script>
-  </body>
+      </div>
+    </div>
+    <section id="contact" class="contact section shell">
+      <p class="eyebrow reveal">08 / Let's connect</p>
+      <div class="contact-main reveal"><h2>Good work starts<br />with a conversation<span>.</span></h2><a class="contact-arrow" href="mailto:itsmedavidraj@gmail.com" aria-label="Email David"><i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>
+      <a class="contact-email reveal" href="mailto:itsmedavidraj@gmail.com">itsmedavidraj@gmail.com</a>
+      <div class="contact-links reveal"><a href="https://linkedin.com/in/david-raj-ramakrishnan-47001696/" target="_blank" rel="noopener noreferrer">LinkedIn <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><a href="https://wa.me/919092348258" target="_blank" rel="noopener noreferrer">WhatsApp <i data-lucide="message-circle" aria-hidden="true"></i></a><a href="assets/DAVID_RAJ_RAMAKRISHNAN_TechLead.pdf" download>Latest resume <i data-lucide="download" aria-hidden="true"></i></a><a href="https://youtu.be/-evZlZPUTQk?si=QLQ1kJ4fLNVZItci" target="_blank" rel="noopener noreferrer">Video portfolio / 2019 <i data-lucide="play" aria-hidden="true"></i></a></div>
+    </section>
+  </main>
+  <footer class="shell"><a class="brand" href="#top">DR<span>.</span></a><p>David Raj Ramakrishnan · Bengaluru, India</p><a href="#top">Back to top <i data-lucide="arrow-up" aria-hidden="true"></i></a></footer>
+  <script src="assets/vendor/marked.umd.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>
