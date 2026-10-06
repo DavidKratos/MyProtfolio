@@ -1,5 +1,9 @@
 # Portfolio Conversation Panel
 
+This edition adds iOS-inspired translucent glass navigation, glossy capsule controls, softened chat surfaces and recognition tiles. Typography uses -apple-system and BlinkMacSystemFont so Apple devices use their native system font; other devices use their own compatible system fallback. No font download is required. Reduced-transparency preferences and browsers without backdrop-filter have opaque navigation/control fallbacks.
+
+For an existing installation of the latest redesigned portfolio, only styles.css needs to be replaced. This folder also includes the complete website for a fresh replacement.
+
 Copy these files into the repository folder opened by GitHub Desktop:
 
 - index.html
